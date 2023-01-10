@@ -1,0 +1,2 @@
+pattern="[A-Za-z]{1,8}" maxlength="30"
+pattern="[0-9]{1,6}" maxlength=""
