@@ -111,7 +111,7 @@ class CreateGeneralsTable extends Migration
         });
 
         Schema::create('grupos', function (Blueprint $table) {
-            $table->integer('ID_GRUPO')->primary();
+            $table->string('ID_GRUPO')->primary();
             $table->integer('ID_MODULO');
             $table->foreign('ID_MODULO')->references('ID_MODULO')->on('modulos')->onUpdate('restrict')->onDelete('restrict');
             $table->integer('ID_DOCENTE');
@@ -126,7 +126,7 @@ class CreateGeneralsTable extends Migration
             $table->string('GRUPO_HORAS', 30);
             $table->string('GRUPO_UBICACION', 6);
         });
-
+      
         // NIVEL 3
 
         Schema::create('inscripciones', function (Blueprint $table) {
@@ -142,7 +142,7 @@ class CreateGeneralsTable extends Migration
             $table->integer('INSCRIPCION_NUM_FOLIO');
             $table->integer('INSCRIPCION_MONTO');
             $table->date('INSCRIPCION_FECHA');
-            $table->string('InSCRIPCION_ PERIODO', 10);
+            $table->string('INSCRIPCION_PERIODO', 10);
             $table->integer('INSCRIPCION_ANIO');
         });
 
@@ -172,6 +172,7 @@ class CreateGeneralsTable extends Migration
             $table->float('CARDEX_CALIF_MOD7');
             $table->float('CARDEX_CALIF_MOD8');
             $table->float('CARDEX_CALIF_MOD9');
+            $table->float('CARDEX_CALIF_MOD10');
             $table->string('CARDEX_ACREDITADO', 3);
         });
 

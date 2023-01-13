@@ -50,7 +50,7 @@
                         {{-- Si el alumno está siendo inscrito, se mostrará este form --}}
                         <form>
                             <h5 class="text-center">Inscripción a {{ $inscribiendo['idioma'] }}
-                                M{{ $inscribiendo['numeroModulo'] }}</h5>
+                                MÓDULO {{ $inscribiendo['numeroModulo'] }}</h5>
 
 
                             {{-- Número de folio --}}
@@ -91,14 +91,13 @@
                             <div class="form-row mb-3">
                                 <div class="col">
                                     <select class="custom-select" aria-placeholder="Grupo"
-                                        wire:model="inscribiendo.idGrupo">
+                                        wire:model="inscribiendo.idGrupo" onclick="mount()">
 
                                         <option wire:model="inscribiendo.grupo" selected hidden>Grupo</option>
                                         @foreach ($planesEstudio as $idPlan => $datosPlanEstudio)
                                         @foreach ($datosPlanEstudio['modulos'] as $idModulo => $datosModulo)
-
                                         @foreach ($datosModulo['grupos'] as $grupo)
-                                        @if($grupo['PLAN_NOMBRE_IDIOMA']===$inscribiendo['idioma'])
+                                        @if($grupo['PLAN_NOMBRE_IDIOMA']===$inscribiendo['idioma'] && $grupo['MODULO_NIVEL'] == $inscribiendo["numeroModulo"] )
                                         @if ($grupo['GRUPO_NUM_ALUMNOS'] < $grupo['GRUPO_LIMITE']) <option
                                             value="{{ $grupo['ID_GRUPO'] }}">
                                             {{ $grupo['GRUPO_NOM_GRUPO'] }}
@@ -174,17 +173,17 @@
                         {{-- Existe el grupo, entonces está inscrito a él --}}
                         <button type="button" class="btn btn-secondary">
                             {{ $contenido['idioma'] }}</button>
-                       {{-- @elseif (isset($alumno['ultimoModulo']["$idPlan"]))
-                         Si no está inscrito a ningún grupo, pero tiene antecedentes en el idioma 
+                         {{--@elseif (isset($alumno['ultimoModulo']["$idPlan"]))
+                        Si no está inscrito a ningún grupo, pero tiene antecedentes en el idioma
 
                         <button type="button" class="btn btn-success"
-                            wire:click="llenarInscripcion('{{ $alumno['id'] }}','{{ $idPlan }}','{{ $alumno['ultimoModulo']["$idPlan"]['modulo'] + 1 }}')">
+                            wire:click="llenarInscripcion('{{ $alumno['id'] }}','{{ $idPlan }}','{{ $alumno['ultimoModulo']["$idPlan"]['modulo'] + 1 }}','{{$alumno['aCursar']}})">
                             {{ $contenido['idioma'] }}  M{{ $alumno['ultimoModulo']["$idPlan"]['modulo'] + 1 }}</button>--}}
                         @else
                         {{-- No tiene antecedentes en el idioma --}}
 
                         <button type="button" class="btn btn-primary"
-                            wire:click="llenarInscripcion('{{ $alumno['id'] }}','{{ $alumno['nombre'] }}','{{ $idPlan }}','1')">
+                            wire:click="llenarInscripcion('{{ $alumno['id'] }}','{{ $alumno['nombre'] }}','{{ $idPlan }}')">
                             {{ $contenido['idioma'] }}</button>
                         @endif
                         @endforeach

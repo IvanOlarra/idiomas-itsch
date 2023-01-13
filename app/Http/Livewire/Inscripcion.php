@@ -10,6 +10,7 @@ use App\Models\Calificacione;
 use App\Models\Planestudio;
 use App\Models\User;
 use App\Models\Adeudo;
+use App\Models\Cardex;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -45,6 +46,7 @@ class Inscripcion extends Component
     public $busqueda;
     public $cantidadRegistros;
     public $planesEstudio;
+    public $cardex;
     public $inscribiendo = [
         'id' => null,
         'planEstudio' => null,
@@ -61,6 +63,8 @@ class Inscripcion extends Component
         'cantidadAdeudo' =>  null, 
         'fechaAdeudo' => null,  
         'descripcionAdeudo' => "",
+        'aCursar'=> null,
+        'cardex' => null,  //ALMACENA BOOLEANO SI EL ALUMNO YA TIENE CREADO SU CARDEX
     ];
     public $listaAlumnos;
 
@@ -95,8 +99,9 @@ class Inscripcion extends Component
                     'planestudios.*',
                 )->
                 where('modulos.ID_MODULO', $modulo->ID_MODULO)->get();
-
+               
                 $this->planesEstudio[$planEstudio->ID_PLANESTUDIO]['modulos'][$modulo->ID_MODULO]['grupos'] = $grupos;
+                
             }
         }
 
@@ -139,9 +144,27 @@ class Inscripcion extends Component
             'INSCRIPCION_ PERIODO' => 'ENE-JUL',
             'INSCRIPCION_ANIO' => 2020,
         ]);
+        
          //VALIDAR SI EXISTE CARDEX
-         
+         if(!$this->inscribiendo['cardex']){
+            $cardex=Cardex::create([
+              'ID_ALUMNO' => $this->inscribiendo['id'],
+              'ID_PLANESTUDIO' => $this->inscribiendo['planEstudio'],
+              'CARDEX_CALIF_MOD1' => 0,
+              'CARDEX_CALIF_MOD2' => 0,
+              'CARDEX_CALIF_MOD3' => 0,
+              'CARDEX_CALIF_MOD4' => 0,
+              'CARDEX_CALIF_MOD5' => 0,
+              'CARDEX_CALIF_MOD6' => 0,
+              'CARDEX_CALIF_MOD7' => 0,
+              'CARDEX_CALIF_MOD8' => 0,
+              'CARDEX_CALIF_MOD9' => 0,
+              'CARDEX_CALIF_MOD10' => 0,
+              'CARDEX_ACREDITADO' => 'f',
+             ]);
+         }
         $inscripcion->save();
+        //Crear Calificación
         $calificacion = Calificacione::create([
             'ID_CALIF' => $this->inscribiendo['folio'],
             'ID_ALUMNO' => $this->inscribiendo['id'],
@@ -179,13 +202,25 @@ class Inscripcion extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function llenarInscripcion($idAlumno,$nombreAlumno, $idPlan, $numeroModulo)
+    public function llenarInscripcion($idAlumno,$nombreAlumno, $idPlan)
     {
         $this->inscribiendo['id'] =  $idAlumno;
         $this->inscribiendo['planEstudio'] = $idPlan;
         $this->inscribiendo['idioma'] = $this->planesEstudio[$idPlan]['idioma'];
-        $this->inscribiendo['numeroModulo'] = $numeroModulo;
         $this->inscribiendo['alumno'] = $nombreAlumno;
+        $this->inscribiendo['numeroModulo']= $this->validarModulo($idPlan,$idAlumno);
+        
+    }
+    
+    public function validarModulo($idPlan, $idAlumno){
+        if(Cardex::where('ID_ALUMNO',$idAlumno)->where('ID_PLANESTUDIO',$idPlan)->exists()){
+            $cardex=Cardex::where('ID_ALUMNO',$idAlumno)->where('ID_PLANESTUDIO',$idPlan)->first();
+            $this->inscribiendo['cardex']=true;
+            return $this->ultimoModuloCursado($cardex);
+        }else{
+            $this->inscribiendo['cardex']=false;
+            return 1;
+        }
     }
 
     private function fillListaAlumnos()
@@ -208,15 +243,19 @@ class Inscripcion extends Component
             $registro['nombre'] = $alumno->ALUMNO_NOMBRE . ' ' . $alumno->ALUMNO_APELLIDO_PAT . ' ' . $alumno->ALUMNO_APELLIDO_MAT;
 
             $grupos = $alumno->grupos()->get();
-
+           
+           
+                
             foreach ($grupos as $grupo) {
                 $registro['grupos'][$grupo->modulo()->first()->planestudio()->first()->ID_PLANESTUDIO] = $grupo->ID_GRUPO;
             }
             $registro['ultimoModulo'] = $alumno->lastCardex();
 
             $this->listaAlumnos[$registro['id']] = $registro;
+        } 
+      
         }
-    }
+        
 
     private static function buscarCampos(array $campos, string $busqueda, $modelo)
     {
@@ -255,5 +294,32 @@ class Inscripcion extends Component
         $this->fillListaAlumnos();
 
         return view('livewire.inscripcion', ['listaAlumnos' => $this->listaAlumnos, 'alumnosPaginado' => $this->alumnosPaginado]);
+    }
+    public function ultimoModuloCursado($listaCalificaciones){
+        
+        $modulo=0;
+        if($listaCalificaciones->CARDEX_CALIF_MOD1==0){
+            return $modulo=1;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD2==0){
+            return $modulo=2;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD3==0){
+            return $modulo=3;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD4==0){
+            return $modulo=4;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD5==0){
+            return $modulo=5;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD6==0){
+            return $modulo=6;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD7==0){
+            return $modulo=7;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD8==0){
+            return $modulo=8;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD9==0){
+            return $modulo=9;
+         }elseif($listaCalificaciones->CARDEX_CALIF_MOD10==0){
+            return $modulo=10;
+         }
+            
+
     }
 }
