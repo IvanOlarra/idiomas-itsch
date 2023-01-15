@@ -281,14 +281,14 @@
 
 
         </div>
-        <div class="container m-1">
-            <div class="row">
-                <div class="col-6">
-                    {{ $alumnosPaginado->links() }}
-                </div>
+            <div class="container m-1">
+                <div class="row">
+                    <div class="col-6">
+                        {{ $alumnosPaginado->links() }}
+                    </div>
 
+                </div>
             </div>
-        </div>
 
     </div>
 

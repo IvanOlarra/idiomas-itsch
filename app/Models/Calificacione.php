@@ -34,4 +34,9 @@ class calificacione extends Model
         'PF',
         'CALIFICACION_FECHA',*/
     ];
+
+    public function grupos()
+    {
+        return $this->belongsToMany(Grupo::class, 'inscripciones', 'ID_ALUMNO', 'ID_GRUPO');
+    }
 }

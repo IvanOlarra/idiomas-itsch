@@ -8,4 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Cardex extends Model
 {
     use HasFactory;
+
+    public $primaryKey = 'ID_CARDEX';
+
+    // autoincrement en PrimaryKey
+    public $incrementing = false;
+
+    public $timestamps = false;
+
+    protected $fillable = [
+        'ID_ALUMNO',
+        'ID_PLANESTUDIO'        
+    ];
 }

@@ -141,7 +141,7 @@ class Inscripcion extends Component
             'INSCRIPCION_NUM_FOLIO' => $this->inscribiendo['folio'],
             'INSCRIPCION_MONTO' => $this->inscribiendo['cantidad'],
             'INSCRIPCION_FECHA' => date('Y-m-d H:i:s'),
-            'INSCRIPCION_ PERIODO' => 'ENE-JUL',
+            'INSCRIPCION_PERIODO' => 'ENE-JUL',
             'INSCRIPCION_ANIO' => 2020,
         ]);
         
@@ -224,7 +224,7 @@ class Inscripcion extends Component
     }
 
     private function fillListaAlumnos()
-    {
+ {
         $this->listaAlumnos = [];
         if ($this->busqueda == '') {
             //Cuando no se ha ingresado ninguna búsqueda, se obtienen todos los alumnos registrados
@@ -254,7 +254,7 @@ class Inscripcion extends Component
             $this->listaAlumnos[$registro['id']] = $registro;
         } 
       
-        }
+    }
         
 
     private static function buscarCampos(array $campos, string $busqueda, $modelo)
@@ -295,6 +295,9 @@ class Inscripcion extends Component
 
         return view('livewire.inscripcion', ['listaAlumnos' => $this->listaAlumnos, 'alumnosPaginado' => $this->alumnosPaginado]);
     }
+
+
+
     public function ultimoModuloCursado($listaCalificaciones){
         
         $modulo=0;

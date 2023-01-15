@@ -111,7 +111,7 @@ class CreateGeneralsTable extends Migration
         });
 
         Schema::create('grupos', function (Blueprint $table) {
-            $table->string('ID_GRUPO')->primary();
+            $table->integer('ID_GRUPO')->primary();
             $table->integer('ID_MODULO');
             $table->foreign('ID_MODULO')->references('ID_MODULO')->on('modulos')->onUpdate('restrict')->onDelete('restrict');
             $table->integer('ID_DOCENTE');

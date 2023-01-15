@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ControllerInscripcion extends Controller
 {
+    
 
     public function mostinscripcion()
     {
@@ -92,6 +93,7 @@ class ControllerInscripcion extends Controller
         return back();
     }
 
+    
     //dif
     public function edit($id)
     {

@@ -10,7 +10,7 @@
     <ul class="navbar-nav me-auto mb-2 mb-md-0">
         <li class="nav-item">
 
-            <h5>Coonsulta de Adeudo
+            <h5>Consulta de Adeudo
             </h5>
         </li>
 
@@ -56,7 +56,7 @@
 
                 <td>
                     <center>
-                        <a type="button" class="btn btn-primary "
+                        {{--<a type="button" class="btn btn-primary "
                             href="{{ route('update.mostadeudo_modificar',$item->ID_ADEUDO) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-pencil-square" viewBox="0 0 16 16">
@@ -65,7 +65,7 @@
                                 <path fill-rule="evenodd"
                                     d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
                             </svg>
-                            Ver/Editar</a>
+                            Ver/Editar</a>--}}
 
                         <a type="button" class="btn btn-danger"
                             href="{{ route('delete.adeudo_eliminar',$item->ID_ADEUDO) }}">

@@ -36,4 +36,9 @@ class Inscripcione extends Model
         'PF',
         'CALIFICACION_FECHA',*/
     ];
+
+    public function grupo()
+    {
+        return $this->hasMany(Grupo::class, 'ID_MODULO');
+    }
 }

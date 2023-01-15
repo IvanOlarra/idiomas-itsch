@@ -16,7 +16,7 @@ class CierreSeeder extends Seeder
     {
         $cierre = new Cierre;
         $cierre->parcial ='{"parcial1":0,"parcial2":1,"parcial3":0,"parcial4":0}';
-        $cierre->estado = true;
+        $cierre->estado = 1;
 
         $cierre->save();
 
